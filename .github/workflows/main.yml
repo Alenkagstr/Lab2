@@ -12,5 +12,5 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - uses: python@v3 Calc.py
+    - run: python@v3 Calc.py
  
