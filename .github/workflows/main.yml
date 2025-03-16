@@ -32,6 +32,12 @@ jobs:
       
       - name: Запуск калькулятора -
         run: python Calc.py 6 - 4
-      
+
+      - name: Запуск калькулятора *
+        run: python Calc.py 7 * 8
+
+      - name: Запуск калькулятора /
+        run: python Calc.py 30 / 5
+        
       - name: Запуск тестов
         run: pytest test_calc.py
