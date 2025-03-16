@@ -1,73 +1,50 @@
-# функция получения числа от пользователя test_run 
-def get_number(prompt):
-    while True:
-        try:
-            number = float(input(prompt)) # проверяем, является ли число дробным
-            if number.is_integer():
-                return int(number) # проверяем, является ли число целым
-            return number
-        except ValueError:
-            print("Это не число! Пожалуйста, введите число.") # если пользователь ввел не число, то выводим это сообщение
+import sys
 
+def add(a, b):
+    return a + b
 
-# функция получения математического оператора
-def get_operation():
-    message = '''
-Выберете математическую операцию:
+def subtract(a, b):
+    return a - b
 
-+ : Сложение
-- : Вычитание
-/ : Деление
-* : Умножение
-Ваш выбор:
-'''
+def multiply(a, b):
+    return a * b
 
-    correct_operations = '+-/*' # строка корректных операций
-    # спрашиваем у пользователя, какую операцию он хочет выбрать
-    operation = input(message)
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError("Деление на ноль невозможно")
+    return a / b
 
-    while operation not in correct_operations:
-        # выводим выбранную операцию; если операция отсутствует в строке корректных операций, то выводим сообщение об ошибке
-        print('Такая операция недоступна. Повторите попытку.')
-        operation = input(message)
-    return operation
-
-
-# функция расчета
-def calculate(num1, num2, operation):
-    result = None
-    if operation == '+':
-        result = num1 + num2
-    elif operation == '-':
-        result = num1 - num2
-    elif operation == '/':
-        try:
-            result = num1 / num2
-        except ZeroDivisionError:
-            result = "Деление на ноль запрещено"
-    elif operation == '*':
-        result = num1 * num2
-    return result
-
-
-# главная функция, которая вызывает все функции написанные выше
 def main():
-    num1 = get_number("Введите первое число: ") # ввод первого числа
-    num2 = get_number("Введите второе число: ") # ввод второго числа
-    operation = get_operation() # ввод операции
-    result = calculate(num1, num2, operation) # результат
-    print("Результат:", result) # вывод результата
+    if len(sys.argv) != 4:
+        print("Использование: python calc.py <число1> <операция> <число2>")
+        print("Пример: python calc.py 5 + 3")
+        sys.exit(1)
 
+    try:
+        a = float(sys.argv[1])
+        operation = sys.argv[2]
+        b = float(sys.argv[3])
 
-# вызываем основую функцию main
-main()
-# после выполнения main() запускаем бесконечный цикл (while True)
-while True:
-    # спрашиваем пользвователя, желает ли он дальше пользоваться калькулятором
-    decision = (input('Продолжить? (да/нет) ')).lower()
-    # если да, то опять вызываем main()
-    if decision == 'да':
-        main()
-    # если нет, выходим из бесконечного цикла (break)
-    elif decision == 'нет':
-        break
+        if operation == '+':
+            result = add(a, b)
+        elif operation == '-':
+            result = subtract(a, b)
+        elif operation == '*':
+            result = multiply(a, b)
+        elif operation == '/':
+            result = divide(a, b)
+        else:
+            print("Неверная операция. Используйте +, -, *, /")
+            sys.exit(1)
+
+        print(f"Результат: {result}")
+
+    except ValueError:
+        print("Ошибка: Введите числа корректно.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Ошибка: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
