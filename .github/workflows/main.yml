@@ -46,6 +46,14 @@ jobs:
     steps:
       - name: Checkout репозитория
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # Отключаем встроенные учетные данные
+
+      - name: Настройка аутентификации Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
       
       - name: Создание Pull Request
         uses: peter-evans/create-pull-request@v7
