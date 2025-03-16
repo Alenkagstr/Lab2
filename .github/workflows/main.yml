@@ -48,7 +48,7 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Создание Pull Request
-        uses: Alenkagstr/create-pull-request@v5
+        uses: Alenkagstr/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: development
