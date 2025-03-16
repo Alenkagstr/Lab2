@@ -26,7 +26,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pytest  # Устанавливаем тестовый фреймворк
-      
+          
+      - name: Копирование calc.py в рабочую директорию
+        run: cp calc.py $GITHUB_WORKSPACE/
+
       - name: Запуск калькулятора
         run: python src/calc.py
       
