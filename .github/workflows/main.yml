@@ -39,8 +39,7 @@ jobs:
         
       - name: Запуск тестов
         run: pytest test_calc.py
-
-create_pull_request:
+  create_pull_request:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -50,25 +49,40 @@ create_pull_request:
       - name: Создание Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: development
           base: main
           title: 'Автоматическое слияние изменений из development в main'
           body: 'Этот PR содержит последние исправления и обновления.'
           labels: 'авто-слияние'
-          reviewers: 'Alena_review'  #  имя ревьюера
           draft: false
-  
-merge_pull_request:
+
+  merge_pull_request:
     needs: create_pull_request
     runs-on: ubuntu-latest
     steps:
       - name: Автоматическое слияние PR при успешных тестах
-        uses: pascalgn/automerge-action@v0.15.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MERGE_METHOD: 'squash'
-  
-release:
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: pulls } = await github.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: 'development'
+            });
+
+            if (pulls.length > 0) {
+              await github.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pulls[0].number,
+                merge_method: 'squash'
+              });
+            }
+
+  release:
     needs: merge_pull_request
     runs-on: ubuntu-latest
     steps:
@@ -77,11 +91,11 @@ release:
       
       - name: Создание нового тега версии
         run: |
-          VERSION="v1.0.$(date +%s)"
+          VERSION=\"v1.0.$(date +%s)\"
           git tag $VERSION
           git push origin $VERSION
-  
-generate_docs:
+
+  generate_docs:
     needs: release
     runs-on: ubuntu-latest
     steps:
