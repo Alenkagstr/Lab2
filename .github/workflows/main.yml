@@ -28,7 +28,7 @@ jobs:
           pip install pytest  # Устанавливаем тестовый фреймворк
       
       - name: Запуск калькулятора
-        run: python calc.py
+        run: python src/calc.py
       
     #  - name: Запуск тестов
     #    run: pytest test_calc.py
