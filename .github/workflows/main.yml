@@ -36,5 +36,5 @@ jobs:
       - name: Запуск калькулятора 1
         run: python Calc.py 6 - 4
       
-    #  - name: Запуск тестов
-    #    run: pytest test_calc.py
+      - name: Запуск тестов
+        run: pytest test_calc.py
