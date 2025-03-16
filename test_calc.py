@@ -1,6 +1,6 @@
 import pytest
 import subprocess
-from calc import add, subtract, multiply, divide
+from Calc import add, subtract, multiply, divide
 
 def test_add():
     assert add(2, 3) == 5
@@ -24,17 +24,17 @@ def test_divide():
         divide(5, 0)  # Проверка деления на ноль
 
 def test_cli():
-    result = subprocess.run(['python', 'calc.py', '5', '+', '3'], capture_output=True, text=True)
+    result = subprocess.run(['python', 'Calc.py', '5', '+', '3'], capture_output=True, text=True)
     assert "Результат: 8.0" in result.stdout
 
-    result = subprocess.run(['python', 'calc.py', '10', '/', '2'], capture_output=True, text=True)
+    result = subprocess.run(['python', 'Calc.py', '10', '/', '2'], capture_output=True, text=True)
     assert "Результат: 5.0" in result.stdout
 
-    result = subprocess.run(['python', 'calc.py', '4', '*', '3'], capture_output=True, text=True)
+    result = subprocess.run(['python', 'Calc.py', '4', '*', '3'], capture_output=True, text=True)
     assert "Результат: 12.0" in result.stdout
 
-    result = subprocess.run(['python', 'calc.py', '6', '-', '2'], capture_output=True, text=True)
+    result = subprocess.run(['python', 'Calc.py', '6', '-', '2'], capture_output=True, text=True)
     assert "Результат: 4.0" in result.stdout
 
-    result = subprocess.run(['python', 'calc.py', '5', '/', '0'], capture_output=True, text=True)
+    result = subprocess.run(['python', 'Calc.py', '5', '/', '0'], capture_output=True, text=True)
     assert "Ошибка:" in result.stdout
