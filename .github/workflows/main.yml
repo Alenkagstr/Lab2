@@ -102,7 +102,7 @@ jobs:
         run: |
           mkdir -p docs
           echo "# Документация" > docs/README.md
-          echo "Этот проект является калькулятором на Python." >> docs/README.md
+          echo "Этот проект является калькулятором на Python." $VERSION >> docs/README.md
       
       - name: Коммит документации
         run: |
