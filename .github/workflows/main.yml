@@ -91,3 +91,27 @@ jobs:
           git tag $VERSION
           git push origin $VERSION
 
+  generate_docs:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout репозитория
+        uses: actions/checkout@v4
+      
+      - name: Удаление старой документации
+        run: rm -rf docs/
+
+      - name: Генерация новой документации
+        run: |
+          mkdir -p docs
+          echo "# Документация $VERSION" > docs/README.md
+          echo "Этот проект является калькулятором на Python." >> docs/README.md
+
+        
+      - name: Коммит документации
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add docs/README.md
+          git commit -m 'Автоматическое обновление документации'
+          git push
