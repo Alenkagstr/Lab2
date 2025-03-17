@@ -104,10 +104,10 @@ jobs:
       - name: Генерация новой документации
         run: |
           mkdir -p docs
-          echo "Документация версии $VERSION" > docs/index.md
-          sphinx-build -b html . docs/
-      
-           
+          echo "# Документация $VERSION" > docs/README.md
+          echo "Этот проект является калькулятором на Python." >> docs/README.md
+
+        
       - name: Коммит документации
         run: |
           git config --global user.name 'github-actions'
