@@ -1,4 +1,4 @@
-name: Alena CI/CD Pipeline 
+name: Alena CI/CD Pipeline  
 
 on:
   push:
