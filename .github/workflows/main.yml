@@ -98,12 +98,16 @@ jobs:
       - name: Checkout репозитория
         uses: actions/checkout@v4
       
-      - name: Генерация документации
+      - name: Удаление старой документации
+        run: rm -rf docs/
+
+      - name: Генерация новой документации
         run: |
           mkdir -p docs
-          echo "# Документация" > docs/README.md
-          echo "Этот проект является калькулятором на Python." $VERSION >> docs/README.md
+          echo "Документация версии $VERSION" > docs/index.md
+          sphinx-build -b html . docs/
       
+           
       - name: Коммит документации
         run: |
           git config --global user.name 'github-actions'
