@@ -84,4 +84,10 @@ jobs:
     steps:
       - name: Checkout репозитория
         uses: actions/checkout@v4
-        
+      
+      - name: Создание нового тега версии
+        run: |
+          VERSION=\"v1.0.$(date +%s)\"
+          git tag $VERSION
+          git push origin $VERSION
+
