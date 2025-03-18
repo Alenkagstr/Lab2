@@ -1,5 +1,5 @@
-import sys  
-
+# Тeстирование переноса изменений из development в main 
+import sys
 def add(a, b):
     return a + b
 
