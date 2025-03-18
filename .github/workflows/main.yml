@@ -72,10 +72,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
        - name: Pull Request Automerge
-         if: steps.cpr.outputs.pull-request-operation == 'created'
+         if: steps.cpr.outputs.pull-request-number != ''
          uses: peter-evans/enable-pull-request-automerge@v3
          with:
-           token: ${{ secrets.PAT }}
+           token: ${{ secrets.GITHUB_TOKEN }}
            pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
            merge-method: squash
   release:
@@ -87,7 +87,7 @@ jobs:
       
       - name: Создание нового тега версии
         run: |
-          VERSION=\"v1.0.$(date +%s)\"
+          export VERSION="v1.0.$(date +%s)"
           git tag $VERSION
           git push origin $VERSION
 
@@ -101,6 +101,9 @@ jobs:
       - name: Удаление старой документации
         run: rm -rf docs/
 
+      - name: Определение версии
+        run: echo "VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+  
       - name: Генерация новой документации
         run: |
           mkdir -p docs
