@@ -106,10 +106,5 @@ jobs:
           mkdir -p docs
           echo "# Документация $VERSION" > docs/README.md
           echo "Этот проект является калькулятором на Python." >> docs/README.md
-
-        
-      - name: Коммит документации
-        run: |
-          git add docs/README.md
-          git commit -m 'Автоматическое обновление документации'
-          git push
+      
+     
