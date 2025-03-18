@@ -101,13 +101,11 @@ jobs:
       - name: Удаление старой документации
         run: rm -rf docs/
 
-      - name: Определение версии
-        run: echo "VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-  
+       
       - name: Генерация новой документации
         run: |
           mkdir -p docs
-          echo "# Документация $VERSION" > docs/README.md
+          echo "# Документация v1.0.$(date +%s)" > docs/README.md
           echo "Этот проект является калькулятором на Python." >> docs/README.md
       
      
