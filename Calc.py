@@ -11,7 +11,7 @@ def multiply(a, b):
 
 def divide(a, b):
     if b == 0:
-        raise ZeroDivisionError("Деление на ноль невозможно")
+        raise ZeroDivisionError("Деление на ноль невозможно ")
     return a / b
 
 def main():
