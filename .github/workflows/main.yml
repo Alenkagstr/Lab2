@@ -90,18 +90,18 @@ jobs:
           export VERSION="v1.0.$(date +%s)"
           git tag $VERSION
           git push origin $VERSION
-
+          
   generate_docs:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
+   needs: release
+   runs-on: ubuntu-latest
+   steps:
     - name: Checkout репозитория
       uses: actions/checkout@v4
       with:
-        persist-credentials: true  # Сохраняем авторизацию для пуша
+        persist-credentials: true  # Чтобы можно было делать push
 
-    - name: Определение версии
-      run: echo "VERSION=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+    - name: Получение версии из файла
+      run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
     - name: Удаление старой документации
       run: rm -rf docs/
@@ -112,10 +112,13 @@ jobs:
         echo "# Документация $VERSION" > docs/README.md
         echo "Этот проект является калькулятором на Python." >> docs/README.md
 
-    - name: Коммит и пуш документации
+    - name: Проверка изменений и коммит
       run: |
-        git config --global user.name "github-actions" 
-        git config --global user.email "github-actions@github.com"
-        git add docs/
-        git commit -m "Обновлена документация для версии $VERSION"
-        git push origin main
+        git status
+        if [[ -n $(git status --porcelain) ]]; then
+          git add docs/
+          git commit -m "Обновлена документация для версии $VERSION"
+          git push origin main
+        else
+          echo "Нет изменений в документации, коммит не требуется."
+        fi
