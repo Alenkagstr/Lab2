@@ -110,8 +110,6 @@ jobs:
         
       - name: Коммит документации
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
           git add docs/README.md
           git commit -m 'Автоматическое обновление документации'
           git push
